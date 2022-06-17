@@ -1,0 +1,24 @@
+@import "assets/master";
+
+.full-screen-layout-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  background-color: rgb(230, 230, 230);
+  .full-screen-main-layout {
+    width: calc(100% - #{$fullscreen-padding * 2});
+    padding: 20px $fullscreen-padding;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: rgb(255, 255, 255);
+    height: auto;
+  }
+}
+.ed-title {
+  font-size: 22px;
+  font-weight: 700;
+}

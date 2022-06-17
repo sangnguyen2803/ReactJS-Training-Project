@@ -1,0 +1,65 @@
+@import "assets/master";
+
+.table-summary-header {
+  margin: 20px 0 0 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  .table-summary-title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .table-tool-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    .table-tool-icon {
+      font-size: 26px;
+    }
+  }
+}
+
+.table-summary-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 14px;
+
+  .search-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0 20px 0;
+    .search-input-wrapper {
+      z-index: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      height: 30px !important;
+      input {
+        height: 30px !important;
+        width: 400px;
+        text-indent: 40px;
+      }
+      .inner-input-icon {
+        top: 10;
+        left: 5%;
+        font-size: 18px;
+        color: $default-icon-color;
+        position: absolute;
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@import "assets/master";
+
+.navbar-logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-left: 20px;
+}
+.link-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.navbar-container {
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: $navbar-height;
+  background-color: $primary-bg-color;
+  color: $primary-text-color;
+  position: fixed;
+  .navbar-item {
+    font-size: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    width: $navbar-width;
+    &:hover {
+      height: calc(#{$navbar-height} - #{$navbar-item-border}* 2);
+      width: calc(#{$navbar-width} - #{$navbar-item-border}* 2);
+      border: $navbar-item-border solid #e9e9e9;
+    }
+  }
+}
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+  font-style: normal !important;
+}

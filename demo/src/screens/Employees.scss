@@ -1,0 +1,33 @@
+@import "assets/master";
+.screen-layout-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  background-color: rgb(230, 230, 230);
+
+  .screen-layout-main-wrapper {
+    margin: 0px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: $main-containner-width;
+    padding: 0 2.5%;
+    height: 1200px;
+  }
+
+  .screen-layout-panel-wrapper {
+    position: fixed;
+    margin-left: calc(#{$main-containner-width} + 5%);
+    border-left: 2px solid #e6e6e6;
+    width: calc(#{$panel-containner-width} + 5% - 2px - 2%);
+    padding: 20px 1%;
+    background-color: rgb(255, 255, 255);
+    height: 1200px;
+    margin-top: $navbar-height;
+  }
+}
