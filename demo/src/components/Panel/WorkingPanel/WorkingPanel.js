@@ -86,7 +86,7 @@ function WorkingPanel(props) {
           Working
         </span>
 
-        <div className="ag-theme-alpine table-wrapper" style={{ height: 220 }}>
+        <div className="ag-theme-alpine table-wrapper" style={{ height: 380 }}>
           <AgGridReact
             className="ag-theme-alpine"
             columnDefs={columnDefs}

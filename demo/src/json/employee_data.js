@@ -25,6 +25,18 @@ const employee_data = [
     profile_image: "",
   },
   {
+    id: "45",
+    full_name: "The Breaking Wheel",
+    phone: "162-166-0977",
+    team: "2",
+    address: "Quy Nhon",
+    monthly_salary: "8000",
+    start_at: "2021-03-28",
+    age: 50,
+    gender: 0,
+    profile_image: "",
+  },
+  {
     id: "3",
     full_name: "Bloody Mary",
     phone: "162-166-0977",

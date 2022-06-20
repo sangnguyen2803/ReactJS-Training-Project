@@ -3,38 +3,66 @@ import { Fragment, useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMars, faVenus } from "@fortawesome/fontawesome-free-solid";
+import { useMutation } from "react-query";
+import { addEmployee } from "api";
+import Dialog from "components/Dialog/Dialog";
 import store from "store";
 import "./DataUpsertion.scss";
-
 function DataUpsertion({ selectedEmployee, ...rest }) {
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogContent, setDialogContent] = useState({
+    header: "Add an employee",
+    text1: " Task progress",
+    text2: "Adding a new employee is in progress... Please wait",
+    status: 2,
+  });
+
   const [team, setTeam] = useState();
   const { teams } = useSnapshot(store);
+  const add = useMutation((values) => addEmployee(values), {
+    onMutate: (variables) => {
+      setShowDialog(true);
+      setDialogContent({
+        header: "Add an employee",
+        text1: "Task progress:",
+        text2: "Adding a new employee is in progress... Please wait",
+        status: 2,
+      });
+    },
+    onError: (error, variables, context) => {
+      setDialogContent({
+        header: "Add an employee",
+        text1: "Task progress:",
+        text2: "Fail to add a new employee to database. Try again",
+        status: 3,
+      });
+    },
+    onSuccess: () => {
+      setDialogContent({
+        header: "Add an employee",
+        text1: "Task progress:",
+        text2: "Successfully add a new employee",
+        status: 1,
+      });
+    },
+  });
   useEffect(() => {
     setTeam(teams);
   }, [teams]);
   const initialValues = {
-    full_name: "",
+    fullName: "",
     phone: "",
-    team: "1",
+    teamID: 1,
     address: "",
-    gender: "0",
-    monthly_salary: "",
-    start_at: "",
+    male: true,
+    moneyPerHour: "",
+    startDay: "",
     age: 18,
-    profile_image: "",
-  };
-  const handleSubmitForm = (data) => {
-    console.log(data);
-    store.addEmployee(data);
   };
   return (
     <Fragment>
       <div className="du-title">Add an employee</div>
-      <Formik
-        initialValues={initialValues}
-        validateOnChange={false}
-        onSubmit={(values) => handleSubmitForm(values)}
-      >
+      <Formik initialValues={initialValues} validateOnChange={false}>
         {(formikProps) => {
           const { values, errors, touched } = formikProps;
           return (
@@ -43,12 +71,12 @@ function DataUpsertion({ selectedEmployee, ...rest }) {
                 <span className="du-form-label">Gender</span>
                 <div className="du-input-radio-group">
                   <label>
-                    <Field type="radio" name="gender" value="0" />
+                    <Field type="radio" name="male" value={true} />
                     Male
                     <FontAwesomeIcon className="mars-icon" icon={faMars} />
                   </label>
                   <label>
-                    <Field type="radio" name="gender" value="1" />
+                    <Field type="radio" name="male" value={false} />
                     Female
                     <FontAwesomeIcon className="venus-icon" icon={faVenus} />
                   </label>
@@ -56,7 +84,7 @@ function DataUpsertion({ selectedEmployee, ...rest }) {
                 <span className="du-form-label">Full name</span>
                 <Field
                   type="text"
-                  name="full_name"
+                  name="fullName"
                   className="p-pd-b-iu-input-general"
                   placeholder={"Enter your full name"}
                 />
@@ -78,14 +106,14 @@ function DataUpsertion({ selectedEmployee, ...rest }) {
                 <span className="du-form-label">Monthly salary</span>
                 <Field
                   type="text"
-                  name="monthly_salary"
+                  name="moneyPerHour"
                   className="p-pd-b-iu-input-general"
                   placeholder={"Enter your salary per month"}
                 />
                 <span className="du-form-label">Start date</span>
                 <Field
                   type="date"
-                  name="start_at"
+                  name="startDay"
                   className="p-pd-b-iu-input-general"
                   placeholder={"Enter your salary per month"}
                 />
@@ -100,25 +128,35 @@ function DataUpsertion({ selectedEmployee, ...rest }) {
                 <Field
                   type="text"
                   as="select"
-                  name="team"
+                  name="teamID"
                   className="p-pd-b-iu-input-general"
                 >
                   {team?.map((item, index) => (
-                    <option key={index} value={item.team_id}>
-                      {item.team_name}
+                    <option key={index} value={item.no}>
+                      {item.name}
                     </option>
                   ))}
                 </Field>
                 <div className="btn-submit-form-wrapper">
-                  <button className="btn-submit-form" type="submit">
+                  <div
+                    className="btn-submit-form"
+                    onClick={() => {
+                      add.mutate(values);
+                    }}
+                  >
                     Add
-                  </button>
+                  </div>
                 </div>
               </Form>
             </Fragment>
           );
         }}
       </Formik>
+      <Dialog
+        visibility={showDialog}
+        dialogContent={dialogContent}
+        close={() => setShowDialog(false)}
+      ></Dialog>
     </Fragment>
   );
 }

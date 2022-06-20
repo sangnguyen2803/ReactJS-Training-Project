@@ -6,8 +6,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./TableSummary.scss";
 import store from "store";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 function TableSummary({ searchTerm, setSearchTerm, ...rest }) {
-  const { isCheck } = rest;
+  const { isCheck, isLoading } = rest;
   const handleDeleteCheckAll = () => {
     store.employeeMultipleDeletion(isCheck);
   };
@@ -29,8 +32,16 @@ function TableSummary({ searchTerm, setSearchTerm, ...rest }) {
         </div>
       </div>
       <div className="search-wrapper">
-        <span>
-          Total <b>{rest.totalCount}</b> employees
+        <span
+          style={{
+            width: 180,
+          }}
+        >
+          {isLoading ? (
+            <Skeleton width={200} />
+          ) : (
+            `Total ${rest.totalCount} employees`
+          )}
         </span>
         <div className="search-input-wrapper">
           <input

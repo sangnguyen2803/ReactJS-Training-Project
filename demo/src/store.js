@@ -1,6 +1,7 @@
 import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
 import { v4 as uuidv4, v4 } from "uuid";
+
 import {
   removeEmployee,
   addEmployee,
@@ -17,19 +18,24 @@ import team_data from "json/team_data";
 
 const MONTHLY_WORKING_DAY = 20;
 const store = proxy({
-  employees: employee_data,
+  employees: [],
   workings: working_data,
   advances: advance_data,
-  teams: team_data,
+  teams: [],
   isEditing: false,
-
+  setTeams: (data) => {
+    store.teams = data;
+  },
+  setEmployees: (data) => {
+    store.employees = data;
+  },
   getTeamNameByTeamId: (team_id) => {
-    return store.teams.filter((item) => item.team_id === team_id)[0].team_name;
+    return store.teams.filter((item) => parseInt(item.no) === team_id)[0].name;
   },
   getEmployeesByTeam: (team_id) => {
     let team_member = [];
     store.employees.map((item) => {
-      if (item.team === team_id) {
+      if (item.teamId === team_id) {
         team_member.push(item);
       }
     });

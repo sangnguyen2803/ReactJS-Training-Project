@@ -7,6 +7,7 @@ function Tab({ tabs, ...rest }) {
   const selectedTabStyle = {
     backgroundColor: "#000000",
     fontWeight: 500,
+    color: "white",
   };
   return (
     <Fragment>

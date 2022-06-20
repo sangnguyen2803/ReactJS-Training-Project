@@ -6,13 +6,13 @@ import store from "store";
 import "./Table.scss";
 
 function Table({ tableData, ...rest }) {
-  const { isCheck, setIsCheck } = rest;
+  const { isCheck, setIsCheck, isLoading } = rest;
   let navigate = useNavigate();
   const [isCheckAll, setIsCheckAll] = useState(false);
 
   const handleSelectAll = (e) => {
     setIsCheckAll(!isCheckAll);
-    setIsCheck(tableData.map((li) => li.id));
+    setIsCheck(tableData.map((li) => String(li.no)));
     if (isCheckAll) {
       setIsCheck([]);
     }
@@ -50,7 +50,7 @@ function Table({ tableData, ...rest }) {
                 style={{ lineHeight: 2, height: 5, userSelect: "none" }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  rest.setSelectedEmployee(data.id);
+                  rest.setSelectedEmployee(data.no);
                   rest.setSelectedEmployeeData(data);
                 }}
               >
@@ -58,17 +58,17 @@ function Table({ tableData, ...rest }) {
                   <input
                     style={{ cursor: "pointer" }}
                     name="employee"
-                    id={data.id}
+                    id={String(data.no)}
                     onChange={(e) => handleClick(e)}
-                    checked={isCheck.includes(data.id)}
+                    checked={isCheck.includes(String(data.no))}
                     type="checkbox"
                   />
                 </td>
-                <td style={{ width: "5%" }}>{data.id}</td>
-                <td style={{ width: "25%" }}>{data.full_name}</td>
+                <td style={{ width: "5%" }}>{data.no}</td>
+                <td style={{ width: "25%" }}>{data.fullName}</td>
                 <td style={{ width: "25%" }}>{data.phone}</td>
                 <td style={{ width: "25%" }}>
-                  {store.getTeamNameByTeamId(data.team)}
+                  {store.getTeamNameByTeamId(data.teamID)}
                 </td>
                 <td>
                   <FontAwesomeIcon
@@ -79,9 +79,9 @@ function Table({ tableData, ...rest }) {
                   />
                   <FontAwesomeIcon
                     onClick={() => {
-                      rest.handleEmployeeDeletion(data.id);
-                      if (isCheck.includes(data.id)) {
-                        setIsCheck(isCheck.filter((item) => item !== data.id));
+                      rest.handleEmployeeDeletion(data.no);
+                      if (isCheck.includes(data.no)) {
+                        setIsCheck(isCheck.filter((item) => item !== data.no));
                       }
                     }}
                     className="table-icon"

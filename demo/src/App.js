@@ -8,22 +8,29 @@ import InfoPanel from "components/Panel/InfoPanel/InfoPanel";
 import WorkingPanel from "components/Panel/WorkingPanel/WorkingPanel";
 import AdvancesPanel from "components/Panel/AdvancesPanel/AdvancesPanel";
 import StatisticsPanel from "components/Panel/StatisticsPanel/StatisticsPanel";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
+const queryClient = new QueryClient();
 
 function App(props) {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="employees" element={<Employees />} />
-        <Route path="employee-detail/:id" element={<EmployeeDetails />}>
-          <Route path="info" element={<InfoPanel />} />
-          <Route path="working" element={<WorkingPanel />} />
-          <Route path="advances" element={<AdvancesPanel />} />
-          <Route path="statistics" element={<StatisticsPanel />} />
-        </Route>
-        <Route path="team" element={<Team />} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="employees" element={<Employees />} />
+          <Route path="employee-detail/:id" element={<EmployeeDetails />}>
+            <Route path="info" element={<InfoPanel />} />
+            <Route path="working" element={<WorkingPanel />} />
+            <Route path="advances" element={<AdvancesPanel />} />
+            <Route path="statistics" element={<StatisticsPanel />} />
+          </Route>
+          <Route path="team" element={<Team />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 

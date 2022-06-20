@@ -5,7 +5,9 @@ import "./Navbar.scss";
 function Navbar(props) {
   return (
     <div className="navbar-container">
-      <span className="navbar-logo">Employee Management</span>
+      <Link to="employees" className="navbar-logo">
+        Employee Management
+      </Link>
       <div className="link-wrapper">
         <Link to="employees" className="navbar-item">
           Employees

@@ -15,17 +15,17 @@ function InfoPanel(props) {
   useEffect(() => {
     setTeam(teams);
   }, [teams]);
-  const [employee, working] = useOutletContext();
+  const [data] = useOutletContext();
   const [formData, setFormData] = useState({});
   useEffect(() => {
     setFormData({
       ...formData,
-      start_at: employee.start_at,
-      team: employee.team,
-      address: employee.address,
-      monthly_salary: employee.monthly_salary,
+      startDay: data?.startDay,
+      teamId: data?.teamId,
+      address: data?.address,
+      moneyPerHour: data?.moneyPerHour,
     });
-  }, [editStatus, employee]);
+  }, [editStatus, data]);
 
   const handleSubmitForm = () => {
     console.log(formData);
@@ -35,77 +35,95 @@ function InfoPanel(props) {
       <span className="main-text-large" style={{ marginBottom: 20 }}>
         Information
       </span>
-      <div className="form-group-wrapper">
-        <div className="input-wrapper">
-          <span className="du-form-label">Start date</span>
-          <input
-            type="date"
-            onChange={(e) =>
-              setFormData({ ...formData, start_at: e.target.value })
-            }
-            name="start_at"
-            value={editStatus ? formData.start_at : employee.start_at}
-            className="p-pd-b-iu-input-general"
-            placeholder={"Enter your full name"}
-            disabled={!isEditing}
+      <div className="input-container" style={{ flexDirection: "row" }}>
+        <div className="pd-left-side-item" style={{ position: "relative" }}>
+          <img
+            className="pd-image"
+            alt="profile_image"
+            src={"https://images6.alphacoders.com/104/1042578.png"}
           />
+          <div className="pd-sub-info">
+            <span className="main-text-small">{data?.fullName}</span>
+            <span className="sub-text-medium">{data?.phone}</span>
+            <span className="sub-text-large">{data?.teamId}</span>
+          </div>
         </div>
-        <div className="input-wrapper">
-          <span className="du-form-label">Team</span>
-          <select
-            name="team"
-            value={
-              editStatus
-                ? store.getTeamNameByTeamId(formData.team)
-                : employee.team
-            }
-            className="p-pd-b-iu-input-general"
-            onChange={(e) => setFormData({ ...formData, team: e.target.value })}
-            disabled={!isEditing}
-          >
-            {team?.map((item) => (
-              <option value={item.team_id}>{item.team_name}</option>
-            ))}
-          </select>
+        <div className="input-form-wrapper">
+          <div className="form-group-wrapper">
+            <div className="input-wrapper">
+              <span className="du-form-label">Start date</span>
+              <input
+                type="date"
+                onChange={(e) =>
+                  setFormData({ ...formData, startDay: e.target.value })
+                }
+                name="start_at"
+                value={editStatus ? formData?.startDay : data?.startDay}
+                className="p-pd-b-iu-input-general"
+                placeholder={"Enter your full name"}
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="input-wrapper">
+              <span className="du-form-label">Team</span>
+              <select
+                name="team"
+                value={
+                  editStatus
+                    ? store.getTeamNameByTeamId(formData?.teamId)
+                    : data?.teamId
+                }
+                className="p-pd-b-iu-input-general"
+                onChange={(e) =>
+                  setFormData({ ...formData, teamId: e.target.value })
+                }
+                disabled={!isEditing}
+              >
+                {team?.map((item, index) => (
+                  <option key={index} value={item?.team_id}>
+                    {item?.teamname}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="form-group-wrapper">
+            <div className="input-wrapper">
+              <span className="du-form-label">Address</span>
+              <input
+                type="text"
+                name="address"
+                value={editStatus ? formData?.address : data?.address}
+                onChange={(e) =>
+                  setFormData({ ...formData, address: e.target.value })
+                }
+                className="p-pd-b-iu-input-general"
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="input-wrapper">
+              <span className="du-form-label">Hourly pay</span>
+              <input
+                type="text"
+                name="monthly_salary"
+                value={editStatus ? formData?.moneyPerHour : data?.moneyPerHour}
+                onChange={(e) =>
+                  setFormData({ ...formData, moneyPerHour: e.target.value })
+                }
+                className="p-pd-b-iu-input-general"
+                placeholder={"Salary per hour"}
+                disabled={!isEditing}
+              />
+            </div>
+          </div>{" "}
+          <div className="btn-submit-form-wrapper">
+            {editStatus && (
+              <button className="btn-submit-form" onClick={handleSubmitForm}>
+                Update
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="form-group-wrapper">
-        <div className="input-wrapper">
-          <span className="du-form-label">Address</span>
-          <input
-            type="text"
-            name="address"
-            value={editStatus ? formData.address : employee.address}
-            onChange={(e) =>
-              setFormData({ ...formData, address: e.target.value })
-            }
-            className="p-pd-b-iu-input-general"
-            disabled={!isEditing}
-          />
-        </div>
-        <div className="input-wrapper">
-          <span className="du-form-label">Hourly pay</span>
-          <input
-            type="text"
-            name="monthly_salary"
-            value={
-              editStatus ? formData.monthly_salary : employee.monthly_salary
-            }
-            onChange={(e) =>
-              setFormData({ ...formData, monthly_salary: e.target.value })
-            }
-            className="p-pd-b-iu-input-general"
-            placeholder={"Salary per hour"}
-            disabled={!isEditing}
-          />
-        </div>
-      </div>
-      <div className="btn-submit-form-wrapper">
-        {editStatus && (
-          <button className="btn-submit-form" onClick={handleSubmitForm}>
-            Update
-          </button>
-        )}
       </div>
     </div>
   );
